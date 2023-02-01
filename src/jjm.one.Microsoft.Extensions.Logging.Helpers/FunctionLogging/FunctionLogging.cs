@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Microsoft.Extensions.Logging.Helpers
+namespace jjm.one.Microsoft.Extensions.Logging.Helpers
 {
     /// <summary>
     /// Static class for all function logging helper extensions.

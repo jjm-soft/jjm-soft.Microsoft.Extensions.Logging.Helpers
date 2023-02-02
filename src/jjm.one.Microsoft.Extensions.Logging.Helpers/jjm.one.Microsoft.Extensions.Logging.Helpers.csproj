@@ -1,26 +1,32 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;net6;net7.0</TargetFrameworks>
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <SignAssembly>True</SignAssembly>
-    <AssemblyOriginatorKeyFile>jjm.one.Microsoft.Extensions.Logging.Helpers.SignKey.snk</AssemblyOriginatorKeyFile>
+    <Version>1.0.1</Version>
+    <Authors>Jonas Merkle [JJM] </Authors>
+    <Copyright>© by Jonas Merkle [JJM], 2023.</Copyright>
     <PackageId>jjm.one.Microsoft.Extensions.Logging.Helpers</PackageId>
     <Title>jjm.one.Microsoft.Extensions.Logging.Helpers</Title>
-    <Version>1.0.0</Version>
-    <Authors>Jonas Merkle [JJM] </Authors>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Description>A collection of helper functions for the Microsoft logging tool.</Description>
-    <Copyright>© by Jonas Merkle [JJM], 2023.</Copyright>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <RepositoryType>git</RepositoryType>
     <PackageProjectUrl>https://github.com/jjm-one/jjm.one.Microsoft.Extensions.Logging.Helpers</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/jjm-one/jjm.one.Microsoft.Extensions.Logging.Helpers.git</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>jjm.one.Microsoft.Extensions.Logging.Helpers.SignKey.snk</AssemblyOriginatorKeyFile>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <LangVersion>latestmajor</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <LangVersion>latestmajor</LangVersion>
+  </PropertyGroup>
   <ItemGroup>
     <None Include="..\..\LICENSE">
       <Pack>True</Pack>

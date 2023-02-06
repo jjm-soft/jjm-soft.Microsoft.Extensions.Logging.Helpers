@@ -29,7 +29,7 @@ class MyClass {
     void MyFancyFunction() {
 
         // log the function call
-        Log.Logger.LogFctCall(GetType(), MethodBase.GetCurrentMethod(), LogLevel.Debug);
+        logger.LogFctCall(GetType(), MethodBase.GetCurrentMethod(), LogLevel.Debug);
 
         try {
             
@@ -38,7 +38,7 @@ class MyClass {
         catch (Exception exc) {
 
             // Log the exception
-            Log.Logger.LogExcInFctCall(exc, GetType(), MethodBase.GetCurrentMethod(), "My custom exception message!", LogLevel.Error);
+            logger.LogExcInFctCall(exc, GetType(), MethodBase.GetCurrentMethod(), "My custom exception message!", LogLevel.Error);
         }
     }
 

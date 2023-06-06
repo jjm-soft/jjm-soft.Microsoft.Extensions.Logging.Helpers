@@ -14,11 +14,16 @@ A collection of helper functions for the [Microsoft.Extensions.Logging](https://
 - [jjm.one.Microsoft.Extensions.Logging.Helpers](#jjmonemicrosoftextensionslogginghelpers)
   - [Status](#status)
   - [Table of contents](#table-of-contents)
+  - [Nuget Package](#nuget-package)
   - [Usage](#usage)
     - [Use function logging](#use-function-logging)
     - [Output of function logging](#output-of-function-logging)
   - [Full Documentation](#full-documentation)
   - [Repo](#repo)
+
+## Nuget Package
+
+You can get the latest version of this software as a nuget package form [nuget.org](https://www.nuget.org/packages/jjm.one.Microsoft.Extensions.Logging.Helpers/)
 
 ## Usage
 

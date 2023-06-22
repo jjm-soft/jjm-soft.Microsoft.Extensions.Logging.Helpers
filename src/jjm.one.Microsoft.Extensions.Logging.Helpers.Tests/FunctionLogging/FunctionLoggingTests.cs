@@ -1,54 +1,63 @@
 using System;
-using jjm.one.Microsoft.Extensions.Logging.Helpers.Tests.util;
+using System.Reflection;
 using Microsoft.Extensions.Logging;
 using Moq;
 
 namespace jjm.one.Microsoft.Extensions.Logging.Helpers.Tests.FunctionLogging;
 
+/// <summary>
+/// This class contains the tests for the <see cref="FunctionLogging"/> class.
+/// </summary>
 public class FunctionLoggingTests
 {
     #region private members
     
     private readonly Mock<ILogger> _logger;
-
-    private readonly DummyClass _sut; 
     
     #endregion
 
     #region ctors
 
+    /// <summary>
+    /// The default constructor of the <see cref="FunctionLoggingTests"/> class.
+    /// </summary>
     public FunctionLoggingTests()
     {
         _logger = new Mock<ILogger>();
-
-        _sut = new DummyClass(_logger.Object);
     }
 
     #endregion
 
     #region tests
 
+    /// <summary>
+    /// 1. test of the LogFctCall function.
+    /// </summary>
     [Fact]
     public void LogFctCallTest1()
     {
         // arrange
         _logger.Setup(x => x.Log(LogLevel.Debug, 0, It.IsAny<object>(), 
             It.IsAny<Exception>(), It.IsAny<Func<object, Exception, string>>()!)).Verifiable();
-
-        // act 
-        _sut.Test1();
-
+        
+        // act
+        _logger.Object.LogFctCall();
+        
         // assert
-        _logger.Verify(logger => logger.Log(
+        _logger.Verify(x => x.Log(
                 It.Is<LogLevel>(logLevel => logLevel == LogLevel.Debug),
                 0,
                 It.Is<It.IsAnyType>((@o, @t) => 
-                        @o.ToString()!.Equals($"Function called: {nameof(DummyClass)} -> {nameof(_sut.Test1)}")),
+                    @o.ToString()!.Equals($"Function called: {nameof(FunctionLoggingTests)} -> " +
+                                          $"{nameof(LogFctCallTest1)}")),
                 It.IsAny<Exception>(),
                 It.IsAny<Func<It.IsAnyType, Exception, string>>()!),
             Times.Once);
     }
     
+    /// <summary>
+    /// 2. test of the LogFctCall function.
+    /// </summary>
     [Fact]
     public void LogFctCallTest2()
     {
@@ -57,99 +66,122 @@ public class FunctionLoggingTests
             It.IsAny<Exception>(), It.IsAny<Func<object, Exception, string>>()!)).Verifiable();
 
         // act 
-        _sut.Test2();
+        _logger.Object.LogFctCall(GetType(), MethodBase.GetCurrentMethod());
 
         // assert
         _logger.Verify(logger => logger.Log(
                 It.Is<LogLevel>(logLevel => logLevel == LogLevel.Debug),
                 0,
                 It.Is<It.IsAnyType>((@o, @t) => 
-                    @o.ToString()!.Equals($"Function called: {nameof(DummyClass)} -> {nameof(_sut.Test2)}")),
+                    @o.ToString()!.Equals($"Function called: {nameof(FunctionLoggingTests)} -> " +
+                                          $"{nameof(LogFctCallTest2)}")),
                 It.IsAny<Exception>(),
                 It.IsAny<Func<It.IsAnyType, Exception, string>>()!),
             Times.Once);
     }
     
+    /// <summary>
+    /// 1. test of the LogExcInFctCall function.
+    /// </summary>
     [Fact]
-    public void LogFctCallTest3()
+    public void LogExcInFctCallTest1()
     {
         // arrange
+        var exc = new Exception("Test");
         _logger.Setup(x => x.Log(LogLevel.Error, 0, It.IsAny<object>(), 
             It.IsAny<Exception>(), It.IsAny<Func<object, Exception, string>>()!)).Verifiable();
 
         // act 
-        _sut.Test3();
+        _logger.Object.LogExcInFctCall(exc);
+
+        // assert
+        _logger.Verify(logger => logger.Log(
+                It.Is<LogLevel>(logLevel => logLevel == LogLevel.Error),
+                0,
+                It.Is<It.IsAnyType>((@o, @t) =>
+                    @o.ToString()!.Equals($"Exception thrown in: {nameof(FunctionLoggingTests)} -> " +
+                                          $"{nameof(LogExcInFctCallTest1)}")),
+                It.Is<Exception>(x => x == exc),
+                It.IsAny<Func<It.IsAnyType, Exception, string>>()!),
+            Times.Once);
+    }
+    
+    /// <summary>
+    /// 2. test of the LogExcInFctCall function.
+    /// </summary>
+    [Fact]
+    public void LogExcInFctCallTest2()
+    {
+        // arrange
+        var exc = new Exception("Test");
+        _logger.Setup(x => x.Log(LogLevel.Error, 0, It.IsAny<object>(), 
+            It.IsAny<Exception>(), It.IsAny<Func<object, Exception, string>>()!)).Verifiable();
+
+        // act 
+        _logger.Object.LogExcInFctCall(exc, "TestMSG");
 
         // assert
         _logger.Verify(logger => logger.Log(
                 It.Is<LogLevel>(logLevel => logLevel == LogLevel.Error),
                 0,
                 It.Is<It.IsAnyType>((@o, @t) => 
-                    @o.ToString()!.Equals($"Exception thrown in: {nameof(DummyClass)} -> {nameof(_sut.Test3)}")),
-                It.IsAny<Exception>(),
+                    @o.ToString()!.Equals($"Exception thrown in: {nameof(FunctionLoggingTests)} -> " +
+                                          $"{nameof(LogExcInFctCallTest2)}\nTestMSG")),
+                It.Is<Exception>(x => x == exc),
                 It.IsAny<Func<It.IsAnyType, Exception, string>>()!),
             Times.Once);
     }
     
+    /// <summary>
+    /// 3. test of the LogExcInFctCall function.
+    /// </summary>
     [Fact]
-    public void LogFctCallTest4()
+    public void LogExcInFctCallTest3()
     {
         // arrange
+        var exc = new Exception("Test");
         _logger.Setup(x => x.Log(LogLevel.Error, 0, It.IsAny<object>(), 
             It.IsAny<Exception>(), It.IsAny<Func<object, Exception, string>>()!)).Verifiable();
 
         // act 
-        _sut.Test4();
+        _logger.Object.LogExcInFctCall(exc, GetType(), 
+            MethodBase.GetCurrentMethod());
 
         // assert
         _logger.Verify(logger => logger.Log(
                 It.Is<LogLevel>(logLevel => logLevel == LogLevel.Error),
                 0,
                 It.Is<It.IsAnyType>((@o, @t) => 
-                    @o.ToString()!.Equals($"Exception thrown in: {nameof(DummyClass)} -> {nameof(_sut.Test4)}\nTestMSG")),
-                It.IsAny<Exception>(),
+                    @o.ToString()!.Equals($"Exception thrown in: {nameof(FunctionLoggingTests)} -> " +
+                                          $"{nameof(LogExcInFctCallTest3)}")),
+                It.Is<Exception>(x => x == exc),
                 It.IsAny<Func<It.IsAnyType, Exception, string>>()!),
             Times.Once);
     }
     
+    /// <summary>
+    /// 4. test of the LogExcInFctCall function.
+    /// </summary>
     [Fact]
-    public void LogFctCallTest5()
+    public void LogExcInFctCallTest4()
     {
         // arrange
+        var exc = new Exception("Test");
         _logger.Setup(x => x.Log(LogLevel.Error, 0, It.IsAny<object>(), 
             It.IsAny<Exception>(), It.IsAny<Func<object, Exception, string>>()!)).Verifiable();
 
         // act 
-        _sut.Test5();
+        _logger.Object.LogExcInFctCall(exc, GetType(), 
+            MethodBase.GetCurrentMethod(), "TestMSG");
 
         // assert
         _logger.Verify(logger => logger.Log(
                 It.Is<LogLevel>(logLevel => logLevel == LogLevel.Error),
                 0,
                 It.Is<It.IsAnyType>((@o, @t) => 
-                    @o.ToString()!.Equals($"Exception thrown in: {nameof(DummyClass)} -> {nameof(_sut.Test5)}")),
-                It.IsAny<Exception>(),
-                It.IsAny<Func<It.IsAnyType, Exception, string>>()!),
-            Times.Once);
-    }
-    
-    [Fact]
-    public void LogFctCallTest6()
-    {
-        // arrange
-        _logger.Setup(x => x.Log(LogLevel.Error, 0, It.IsAny<object>(), 
-            It.IsAny<Exception>(), It.IsAny<Func<object, Exception, string>>()!)).Verifiable();
-
-        // act 
-        _sut.Test6();
-
-        // assert
-        _logger.Verify(logger => logger.Log(
-                It.Is<LogLevel>(logLevel => logLevel == LogLevel.Error),
-                0,
-                It.Is<It.IsAnyType>((@o, @t) => 
-                    @o.ToString()!.Equals($"Exception thrown in: {nameof(DummyClass)} -> {nameof(_sut.Test6)}\nTestMSG")),
-                It.IsAny<Exception>(),
+                    @o.ToString()!.Equals($"Exception thrown in: {nameof(FunctionLoggingTests)} -> " +
+                                          $"{nameof(LogExcInFctCallTest4)}\nTestMSG")),
+                It.Is<Exception>(x => x == exc),
                 It.IsAny<Func<It.IsAnyType, Exception, string>>()!),
             Times.Once);
     }

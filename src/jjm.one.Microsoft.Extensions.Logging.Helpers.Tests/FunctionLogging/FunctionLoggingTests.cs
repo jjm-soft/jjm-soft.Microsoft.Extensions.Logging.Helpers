@@ -69,7 +69,7 @@ public class FunctionLoggingTests
         _logger.Object.LogFctCall(GetType(), MethodBase.GetCurrentMethod());
 
         // assert
-        _logger.Verify(logger => logger.Log(
+        _logger.Verify(x => x.Log(
                 It.Is<LogLevel>(logLevel => logLevel == LogLevel.Debug),
                 0,
                 It.Is<It.IsAnyType>((@o, @t) => 
@@ -95,13 +95,13 @@ public class FunctionLoggingTests
         _logger.Object.LogExcInFctCall(exc);
 
         // assert
-        _logger.Verify(logger => logger.Log(
+        _logger.Verify(x => x.Log(
                 It.Is<LogLevel>(logLevel => logLevel == LogLevel.Error),
                 0,
                 It.Is<It.IsAnyType>((@o, @t) =>
                     @o.ToString()!.Equals($"Exception thrown in: {nameof(FunctionLoggingTests)} -> " +
                                           $"{nameof(LogExcInFctCallTest1)}")),
-                It.Is<Exception>(x => x == exc),
+                It.Is<Exception>(e => e == exc),
                 It.IsAny<Func<It.IsAnyType, Exception, string>>()!),
             Times.Once);
     }
@@ -121,13 +121,13 @@ public class FunctionLoggingTests
         _logger.Object.LogExcInFctCall(exc, "TestMSG");
 
         // assert
-        _logger.Verify(logger => logger.Log(
+        _logger.Verify(x => x.Log(
                 It.Is<LogLevel>(logLevel => logLevel == LogLevel.Error),
                 0,
                 It.Is<It.IsAnyType>((@o, @t) => 
                     @o.ToString()!.Equals($"Exception thrown in: {nameof(FunctionLoggingTests)} -> " +
                                           $"{nameof(LogExcInFctCallTest2)}\nTestMSG")),
-                It.Is<Exception>(x => x == exc),
+                It.Is<Exception>(e => e == exc),
                 It.IsAny<Func<It.IsAnyType, Exception, string>>()!),
             Times.Once);
     }
@@ -148,13 +148,13 @@ public class FunctionLoggingTests
             MethodBase.GetCurrentMethod());
 
         // assert
-        _logger.Verify(logger => logger.Log(
+        _logger.Verify(x => x.Log(
                 It.Is<LogLevel>(logLevel => logLevel == LogLevel.Error),
                 0,
                 It.Is<It.IsAnyType>((@o, @t) => 
                     @o.ToString()!.Equals($"Exception thrown in: {nameof(FunctionLoggingTests)} -> " +
                                           $"{nameof(LogExcInFctCallTest3)}")),
-                It.Is<Exception>(x => x == exc),
+                It.Is<Exception>(e => e == exc),
                 It.IsAny<Func<It.IsAnyType, Exception, string>>()!),
             Times.Once);
     }
@@ -175,13 +175,13 @@ public class FunctionLoggingTests
             MethodBase.GetCurrentMethod(), "TestMSG");
 
         // assert
-        _logger.Verify(logger => logger.Log(
+        _logger.Verify(x => x.Log(
                 It.Is<LogLevel>(logLevel => logLevel == LogLevel.Error),
                 0,
                 It.Is<It.IsAnyType>((@o, @t) => 
                     @o.ToString()!.Equals($"Exception thrown in: {nameof(FunctionLoggingTests)} -> " +
                                           $"{nameof(LogExcInFctCallTest4)}\nTestMSG")),
-                It.Is<Exception>(x => x == exc),
+                It.Is<Exception>(e => e == exc),
                 It.IsAny<Func<It.IsAnyType, Exception, string>>()!),
             Times.Once);
     }

@@ -4,12 +4,13 @@
     <TargetFrameworks>netstandard2.0;netstandard2.1;net6;net7.0</TargetFrameworks>
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>1.0.3</Version>
-    <Authors>Jonas Merkle [JJM] </Authors>
+    <Version>1.2.0</Version>
+    <Authors>Jonas Merkle [JJM]</Authors>
     <Copyright>© by Jonas Merkle [JJM], 2023.</Copyright>
     <PackageId>jjm.one.Microsoft.Extensions.Logging.Helpers</PackageId>
     <Title>jjm.one.Microsoft.Extensions.Logging.Helpers</Title>
     <Description>A collection of helper functions for the Microsoft logging tool.</Description>
+    <PackageTags>extension, csharp, logging, microsoft-extensions-logging, microsoft-extensions</PackageTags>
     <PackageProjectUrl>https://github.com/jjm-one/jjm.one.Microsoft.Extensions.Logging.Helpers</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/jjm-one/jjm.one.Microsoft.Extensions.Logging.Helpers.git</RepositoryUrl>
@@ -41,7 +42,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
   </ItemGroup>
 
 </Project>

@@ -20,6 +20,7 @@
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>jjm.one.Microsoft.Extensions.Logging.Helpers.SignKey.snk</AssemblyOriginatorKeyFile>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageIcon>jjm.one-logo_1024x1024.png</PackageIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -42,6 +43,10 @@
     <None Include="..\..\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\..\resources\logo\jjm.one-logo_1024x1024.png">
+        <Pack>True</Pack>
+        <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
 
